@@ -43,6 +43,7 @@ function GenerateForm(detail, obj){
 					if(index.contains('gsx') && index!='gsx$datatype' && index!='gsx$datadetail')
 						header.push(subTitle.$t);
 				});
+				if (header.length >= 5)$$('data').removeClass('two').addClass('one');
 				tableFront = new HtmlTable({
 					headers: header,
 					sortable:true,

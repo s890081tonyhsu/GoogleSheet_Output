@@ -3,8 +3,6 @@
 <head>
         <meta charset="UTF-8">
 		<title>Google Sheet Outputer</title>
-		
-		
 </head>
 <body>
 <?php
@@ -13,6 +11,7 @@
 		$key = $data[5];
 ?>
 	<data style="display:none;"><?php echo 'http://cors.io/spreadsheets.google.com/feeds/list/'.$key.'/od6/public/values?alt=json'; ?></data>
+	<?php var_dump(json_decode(file_get_contents('http://cors.io/spreadsheets.google.com/feeds/list/'.$key.'/od6/public/values?alt=json'))); ?>
 <?php
 	}else{
 ?>

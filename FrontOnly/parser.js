@@ -15,21 +15,27 @@ function padLeft(str,lenght){
 function GenerateForm(detail, obj){
 	var FormData = new Hash();
 	FormData['Title'] = new Element('h1',{
-			html:detail.title.$t
+			html:detail.title.$t,
+			'class': 'ui dividing header'
 	});
 	var length = detail.openSearch$totalResults.$t.length;
-	var tableFront;
+	var formFront, tableFront;
 	Array.each(detail.entry, function(data,index){
 		switch(data.gsx$datatype.$t){
 			case 'title':
-				FormData['sub'+padLeft(index,length)] = new Element('h3',{
-					html:data.gsx$datadetail.$t
+				FormData['sub'+padLeft(index,length)] = new Element('div',{
+					'class': 'column'
 				});
+				formFront = FormData['sub'+padLeft(index,length)];
+				formFront.grab(new Element('h3',{
+					html:data.gsx$datadetail.$t,
+					'class': 'ui dividing header'
+				}));
 				break;
 			case 'description':
-				FormData['sub'+padLeft(index,length)] = new Element('p',{
+				formFront.grab(new Element('p',{
 					html:data.gsx$datadetail.$t
-				});
+				}));
 				break;
 			case 'subtitle':
 				var header = new Array();
@@ -37,10 +43,14 @@ function GenerateForm(detail, obj){
 					if(index.contains('gsx') && index!='gsx$datatype' && index!='gsx$datadetail')
 						header.push(subTitle.$t);
 				});
-				FormData['sub'+padLeft(index,length)] = new HtmlTable({
-					headers: header
+				tableFront = new HtmlTable({
+					headers: header,
+					sortable:true,
+					properties: {
+						'class': 'ui table segment'
+					}
 				});
-				tableFront = FormData['sub'+padLeft(index,length)];
+				formFront.grab(tableFront);
 				break;
 			case 'detail':
 				var row = new Array();

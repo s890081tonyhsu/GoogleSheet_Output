@@ -6,12 +6,25 @@
 </head>
 <body>
 <?php
+	require('GenerateTable.php');
 	if(true == (isset($_GET['sheet_url']) && !empty($_GET['sheet_url']))){
-		$data = explode("/",$_GET['sheet_url']); 	
-		$key = $data[5];
+		$url_array = explode("/",$_GET['sheet_url']); 	
+		$key = $url_array[5];
+		$data["all"] = json_decode(file_get_contents('http://cors.io/spreadsheets.google.com/feeds/list/'.$key.'/od6/public/values?alt=json')) -> feed;
+		//$data["title"] = $data["all"]->title->{'$t'};
+		//$data["detail"] = array();
+		//foreach($data["all"]->entry as $item){
+		//	array_push($data["detail"],$item->{'gsx$datatype'}->{'$t'});
+		//}
+		createPage($data["all"]->entry);
 ?>
-	<data style="display:none;"><?php echo 'http://cors.io/spreadsheets.google.com/feeds/list/'.$key.'/od6/public/values?alt=json'; ?></data>
-	<?php var_dump(json_decode(file_get_contents('http://cors.io/spreadsheets.google.com/feeds/list/'.$key.'/od6/public/values?alt=json'))); ?>
+	<!--<h1><?php //echo $data["title"]; ?></h1>-->
+	<pre style="display:none;"><?php var_dump($data["all"]); ?></pre>
+<?php
+	//foreach($data["detail"] as $item){
+	//	echo '<p>'.$item.'</p>';
+	//}
+?>
 <?php
 	}else{
 ?>

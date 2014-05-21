@@ -1,5 +1,3 @@
-var test;
-
 function GetKey(name){
 	if(name=(new RegExp('[?&]'+encodeURIComponent(name)+'=([^&]*)')).exec(location.search))
       return decodeURIComponent(name[1]);
@@ -95,7 +93,15 @@ function Loader(){
 		var sheet_url = GetKey('sheet_url').split('/');
 		var parse_url = 'http://cors.io/spreadsheets.google.com/feeds/list/'+sheet_url[5]+'/od6/public/values?alt=json';
 		Parsing(parse_url);
+
 	}
 }
 
 window.addEvent('domready',Loader);
+window.addEvent('resize',function(){
+	var width = $$('body').getSize()
+	if (width[0].x < 800)
+		$$('data').set('class','ui one column page grid');
+	else
+		$$('data').set('class','ui two column page grid');
+});
